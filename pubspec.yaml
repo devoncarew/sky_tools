@@ -19,7 +19,8 @@ dependencies:
   yaml: ^2.1.3
 
 dev_dependencies:
-  mockito: "^0.10.1"
+  flutter: any
+  mockito: ^0.10.1
 
 # Add the bin/sky_tools.dart script to the scripts pub installs.
 executables:

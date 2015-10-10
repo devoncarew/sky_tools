@@ -4,6 +4,8 @@
 
 library listen_test;
 
+import 'dart:io';
+
 import 'package:args/command_runner.dart';
 import 'package:mockito/mockito.dart';
 import 'package:sky_tools/src/artifacts.dart';
@@ -29,7 +31,13 @@ defineTests() {
 
       CommandRunner runner = new CommandRunner('test_flutter', '')
         ..addCommand(command);
-      runner.run(['listen']).then(expectAsync((int code) => expect(code, equals(0))));
+      return runner.run(['listen']).then((code) {
+        expect(code, equals(0));
+      }).catchError((e) {
+        // ArtifactStore.getPath() seems to indicate that only Linux is
+        // supported; we tolerate (expect?) exceptions on other platforms.
+        if (Platform.isLinux) throw e;
+      });
     });
   });
 }
