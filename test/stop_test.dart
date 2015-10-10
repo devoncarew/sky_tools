@@ -16,7 +16,7 @@ main() => defineTests();
 defineTests() {
   group('stop', () {
     test('returns 0 when Android is connected and ready to be stopped', () {
-      applicationPackageSetup();
+      setupApplicationPackage();
 
       MockAndroidDevice android = new MockAndroidDevice();
       when(android.isConnected()).thenReturn(true);
@@ -34,7 +34,7 @@ defineTests() {
     });
 
     test('returns 0 when iOS is connected and ready to be stopped', () {
-      applicationPackageSetup();
+      setupApplicationPackage();
 
       MockAndroidDevice android = new MockAndroidDevice();
       when(android.isConnected()).thenReturn(false);

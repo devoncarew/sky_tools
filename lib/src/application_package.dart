@@ -120,10 +120,10 @@ class ApplicationPackageFactory {
 
   static void setBuildPath(
       BuildType type, BuildPlatform platform, String buildPath) {
-    // You must set srcPath before attempting to set a BuildPath for
-    // non prebuilt ApplicationPackages.
-    assert(type != BuildType.prebuilt || srcPath != null);
     if (type != BuildType.prebuilt) {
+      // You must set srcPath before attempting to set a BuildPath for
+      // non prebuilt ApplicationPackages.
+      assert(srcPath != null);
       buildPath = path.join(srcPath, buildPath);
     }
     if (!FileSystemEntity.isDirectorySync(buildPath)) {

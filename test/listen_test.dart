@@ -6,6 +6,7 @@ library listen_test;
 
 import 'package:args/command_runner.dart';
 import 'package:mockito/mockito.dart';
+import 'package:sky_tools/src/artifacts.dart';
 import 'package:sky_tools/src/commands/listen.dart';
 import 'package:test/test.dart';
 
@@ -16,7 +17,8 @@ main() => defineTests();
 defineTests() {
   group('listen', () {
     test('returns 0 when no device is connected', () {
-      applicationPackageSetup();
+      setupBuildPaths();
+      ArtifactStore.packageRoot = 'packages';
 
       MockAndroidDevice android = new MockAndroidDevice();
       when(android.isConnected()).thenReturn(false);
@@ -27,7 +29,7 @@ defineTests() {
 
       CommandRunner runner = new CommandRunner('test_flutter', '')
         ..addCommand(command);
-      runner.run(['listen']).then((int code) => expect(code, equals(0)));
+      runner.run(['listen']).then(expectAsync((int code) => expect(code, equals(0))));
     });
   });
 }

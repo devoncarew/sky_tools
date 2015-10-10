@@ -9,10 +9,12 @@ import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 
 import '../application_package.dart';
 import '../device.dart';
 import '../process.dart';
+import 'build.dart';
 
 final Logger _logging = new Logger('sky_tools.listen');
 
@@ -51,28 +53,16 @@ class ListenCommand extends Command {
     ApplicationPackage iosApp = packages[BuildPlatform.iOS];
 
     while (true) {
-      _logging.info('Updating running Sky apps...');
+      _logging.info('Updating running Flutter apps...');
 
-      // TODO(iansf): refactor build command so that this doesn't have
-      //              to call out like this.
-      List<String> command = ['pub', 'run', 'sky_tools', 'build',];
+      String compilerPath;
+      if (ApplicationPackageFactory.srcPath != null) {
+        compilerPath = path.joinAll([
+          ApplicationPackageFactory.srcPath, 'out', 'ios_Debug', 'clang_x64', 'sky_snapshot'
+        ]);
+      }
 
-      try {
-        // In testing, sky-src-path isn't added to the options, and
-        // the ArgParser module throws an exception, so we have to
-        // catch and ignore the error in order to test.
-        if (globalResults.wasParsed('sky-src-path')) {
-          command.addAll([
-            // TODO(iansf): Don't rely on sky-src-path for the snapshotter.
-            '--compiler',
-            '${globalResults['sky-src-path']}'
-                '/out/ios_Debug/clang_x64/sky_snapshot'
-          ]);
-        }
-      } catch (e) {}
-      runSync(command);
-
-      String localFLXPath = 'app.flx';
+      String localFLXPath = await new BuildCommand().build(compilerPath: compilerPath);
       String remoteFLXPath = 'Documents/app.flx';
 
       if (ios.isConnected()) {

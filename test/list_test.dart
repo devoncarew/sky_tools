@@ -16,7 +16,7 @@ main() => defineTests();
 defineTests() {
   group('list', () {
     test('returns 0 when called', () {
-      applicationPackageSetup();
+      setupApplicationPackage();
 
       MockAndroidDevice android = new MockAndroidDevice();
       // Avoid relying on adb being installed on the test system.

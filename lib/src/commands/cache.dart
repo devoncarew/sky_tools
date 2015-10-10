@@ -15,7 +15,7 @@ final Logger _logging = new Logger('sky_tools.cache');
 
 class CacheCommand extends Command {
   final name = 'cache';
-  final description = 'Manages sky_tools\' cache of binary artifacts.';
+  final description = 'Manages Flutter\'s cache of binary artifacts.';
   CacheCommand() {
     addSubcommand(new _ClearCommand());
     addSubcommand(new _PopulateCommand());

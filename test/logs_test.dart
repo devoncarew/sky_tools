@@ -16,7 +16,7 @@ main() => defineTests();
 defineTests() {
   group('logs', () {
     test('returns 0 when no device is connected', () {
-      applicationPackageSetup();
+      setupApplicationPackage();
 
       MockAndroidDevice android = new MockAndroidDevice();
       when(android.isConnected()).thenReturn(false);
